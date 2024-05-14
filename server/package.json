@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "dev": "ts-node-dev index.ts",
     "lint": "eslint --ext .ts .",
-    "start": "ts-node server/index.ts",
+    "start": "ts-node index.ts",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write ."
@@ -28,6 +28,7 @@
     "express": "^4.19.2",
     "express-validator": "^7.0.1",
     "mongoose": "^8.3.4",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
   }
 }
