@@ -93,7 +93,7 @@ const updatePassword = async (req: Request, res: Response) => {
   }
 };
 
-const getInfo = async (req: RequestWithUser, res) => {
+const getInfo = async (req: RequestWithUser, res: Response) => {
   try {
     const user = await userModel.findById(req.user?.id);
 
