@@ -17,6 +17,7 @@ app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)());
 var PORT = process.env.PORT || 4000;
 var server = http_1.default.createServer(app);
+mongoose_1.default.set('strictQuery', false);
 mongoose_1.default.connect(process.env.MONGODB_URL).then(function () {
     console.log('Mongodb is connected');
     server.listen(PORT, function () {

@@ -15,6 +15,8 @@ const PORT = process.env.PORT || 4000;
 
 const server = http.createServer(app)
 
+mongoose.set('strictQuery', false);
+
 mongoose.connect(process.env.MONGODB_URL!).then(() => {
     console.log('Mongodb is connected');
     server.listen(PORT, () => {
