@@ -1,9 +1,11 @@
-// import { IUser } from "../models/user.model";
+// src/types/express.d.ts
+import { ParsedQs } from "qs";
 
-// declare global {
-//     namespace Express {
-//         interface Request {
-//             user?: IUser
-//         }
-//     }
-// }
+export interface GetListQuery extends ParsedQs {
+  page?: string;
+}
+
+export interface GetListParams {
+  mediaType: string;
+  mediaCategory: string;
+}

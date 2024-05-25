@@ -1,3 +1,4 @@
+// src/models/favorite.model.ts
 import mongoose, {
   Schema,
   Document,
@@ -5,24 +6,20 @@ import mongoose, {
 } from "mongoose";
 import modelOptions from "./models.options";
 
-interface IReview extends Document {
-  user: Schema.Types.ObjectId;
-  content: string;
+export interface IFavorite extends Document {
+  user: mongoose.Types.ObjectId;
   mediaType: "tv" | "movie";
   mediaId: string;
   mediaTitle: string;
   mediaPoster: string;
+  mediaRate: number;
 }
 
-const reviewSchema = new Schema<IReview>(
+const favoriteSchema: Schema<IFavorite> = new Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
-    content: {
-      type: String,
       required: true,
     },
     mediaType: {
@@ -42,13 +39,15 @@ const reviewSchema = new Schema<IReview>(
       type: String,
       required: true,
     },
+    mediaRate: {
+      type: Number,
+      required: true,
+    },
   },
   modelOptions
 );
 
-const Review: Model<IReview> = mongoose.model<IReview>(
-  "Review",
-  reviewSchema
-);
+const Favorite: Model<IFavorite> =
+  mongoose.model<IFavorite>("Favorite", favoriteSchema);
 
-export default Review;
+export default Favorite;
