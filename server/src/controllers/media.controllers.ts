@@ -1,104 +1,103 @@
-import responseHandler from "../handlers/response.handler";
-import { Request, Response } from "express";
-import tmdbApi from "../tmdb/tmdb.api";
-import userModel from "../models/user.model";
-import { GetListQuery } from "../types/express";
-import tokenMiddleware from "../middleware/token.middleware";
-import Favorite from "../models/favorite.model";
-import Review from "../models/review.model";
+import { Request, Response } from 'express'
+import responseHandler from '../handlers/response.handler'
+import tmdbApi from '../tmdb/tmdb.api'
+import userModel from '../models/user.model'
+import tokenMiddleware from '../middleware/token.middleware'
+import Favorite from '../models/favorite.model'
+import Review from '../models/review.model'
+
+interface GetListQuery {
+  page: number
+}
+
+interface GetDetailParams {
+  mediaType: string
+  mediaId: number
+}
 
 const getList = async (req: Request, res: Response) => {
   try {
-    const { page } = req.query as unknown as {
-      page: number;
-    };
-    const { mediaType, mediaCategory } = req.params;
+    const { page } = req.query as unknown as GetListQuery
+    const { mediaType, mediaCategory } = req.params
 
     const response = await tmdbApi.mediaList({
       mediaType,
       mediaCategory,
       page,
-    });
+    })
 
-    return responseHandler.ok(res, response);
+    return responseHandler.ok(res, response)
   } catch {
-    responseHandler.error(res);
+    responseHandler.error(res)
   }
-};
+}
 
 const getGenres = async (req: Request, res: Response) => {
   try {
-    const { mediaType } = req.params;
+    const { mediaType } = req.params
 
     const response = await tmdbApi.mediaGenres({
       mediaType,
-    });
-    return responseHandler.ok(res, response);
+    })
+    return responseHandler.ok(res, response)
   } catch {
-    responseHandler.error(res);
+    responseHandler.error(res)
   }
-};
+}
+
+interface SearchQuery {
+  query: string
+  page: number
+}
 
 const search = async (req: Request, res: Response) => {
   try {
-    const { mediaType } = req.params;
-    const { query, page } = req.query as unknown as {
-      query: string;
-      page: number;
-    };
+    const { mediaType } = req.params
+    const { query, page } = req.query as unknown as SearchQuery
     const response = await tmdbApi.mediaSearch({
       query,
       page,
-      mediaType:
-        mediaType === "people" ? "person" : mediaType,
-    });
-    responseHandler.ok(res, response);
+      mediaType: mediaType === 'people' ? 'person' : mediaType,
+    })
+    responseHandler.ok(res, response)
   } catch {
-    responseHandler.error(res);
+    responseHandler.error(res)
   }
-};
+}
 
 const getDetail = async (req: Request, res: Response) => {
   try {
-    const { mediaType, mediaId } =
-      req.params as unknown as {
-        mediaType: string;
-        mediaId: number;
-      };
-    const params = { mediaType, mediaId };
-    const media = await tmdbApi.mediaDetail(params);
-    media.credits = await tmdbApi.mediaCredits(params);
+    const { mediaType, mediaId } = req.params as unknown as GetDetailParams
+    const params = { mediaType, mediaId }
+    const media = await tmdbApi.mediaDetail(params)
+    media.credits = await tmdbApi.mediaCredits(params)
 
-    const videos = await tmdbApi.mediaVideos(params);
-    media.videos = videos;
+    const videos = await tmdbApi.mediaVideos(params)
+    media.videos = videos
 
-    const recommend = await tmdbApi.mediaRecommend(params);
-    media.recommend = recommend.results;
+    const recommend = await tmdbApi.mediaRecommend(params)
+    media.recommend = recommend.results
 
-    media.images = await tmdbApi.mediaImages(params);
+    media.images = await tmdbApi.mediaImages(params)
 
-    const tokenDecoded = tokenMiddleware.tokenDecode(req);
+    const tokenDecoded = tokenMiddleware.tokenDecode(req)
 
     if (tokenDecoded) {
-      const user = await userModel.findById(
-        tokenDecoded.data
-      );
+      const user = await userModel.findById(tokenDecoded.data)
 
       if (user) {
         const isFavorite = await Favorite.findOne({
           user: user.id,
           mediaId,
-        });
-        media.isFavorite = isFavorite !== null;
+        })
+        media.isFavorite = isFavorite !== null
       }
     }
-    media.reviews = await Review.find({ mediaId })
-      .populate("user")
-      .sort("-createdAt");
-    responseHandler.ok(res, media);
+    media.reviews = await Review.find({ mediaId }).populate('user').sort('-createdAt')
+    responseHandler.ok(res, media)
   } catch (error) {
-    responseHandler.error(res);
+    responseHandler.error(res)
   }
-};
+}
 
-export default { getList, getGenres, getDetail, search };
+export default { getList, getGenres, getDetail, search }

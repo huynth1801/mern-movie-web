@@ -1,14 +1,14 @@
-import mongoose, { Schema, Document, Model } from "mongoose";
-import modelOptions from "./models.options";
-import bcrypt from "bcrypt-ts";
+import mongoose, { Schema, Document, Model } from 'mongoose'
+import modelOptions from './models.options'
+import bcrypt from 'bcrypt'
 
 export interface IUser extends Document {
-  username: string;
-  displayname: string;
-  password: string;
-  salt: string;
-  setPassword: (password: string) => Promise<void>;
-  validPassword: (password: string) => Promise<boolean>;
+  username: string
+  displayname: string
+  password: string
+  salt: string
+  setPassword: (password: string) => Promise<void>
+  validPassword: (password: string) => Promise<boolean>
 }
 
 const userSchema = new Schema<IUser>(
@@ -31,24 +31,21 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
   },
-  modelOptions
-);
+  modelOptions,
+)
 
-userSchema.methods.setPassword = async function (
-  this: IUser,
-  password: string
-): Promise<void> {
-  this.salt = await bcrypt.genSalt(16);
-  this.password = await bcrypt.hash(password, this.salt);
-};
+userSchema.methods.setPassword = async function (this: IUser, password: string): Promise<void> {
+  this.salt = await bcrypt.genSalt(16)
+  this.password = await bcrypt.hash(password, this.salt)
+}
 
 userSchema.methods.validPassword = async function (
   this: IUser,
-  password: string
+  password: string,
 ): Promise<boolean> {
-  return await bcrypt.compare(password, this.password);
-};
+  return await bcrypt.compare(password, this.password)
+}
 
-const userModel: Model<IUser> = mongoose.model<IUser>("User", userSchema);
+const userModel: Model<IUser> = mongoose.model<IUser>('User', userSchema)
 
-export default userModel;
+export default userModel

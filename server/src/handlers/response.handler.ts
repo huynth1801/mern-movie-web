@@ -1,47 +1,66 @@
-import { Response, response } from "express";
+import { Response } from 'express'
 
-const responseData = (
-  res: Response,
-  statusCode: number,
-  data: any
-): Response => {
-  return res.status(statusCode).json(data);
-};
+interface SuccessResponse<T> {
+  status: number
+  data: T
+}
+
+// Define a type for an error response
+interface ErrorResponse {
+  status: number
+  message: string
+}
+
+const responseData = <T>(res: Response, statusCode: number, data: T): Response => {
+  return res.status(statusCode).json(data)
+}
 
 const error = (res: Response): Response => {
-  return responseData(res, 500, {
+  const errorResponse: ErrorResponse = {
     status: 500,
-    message: "Something wrong !",
-  });
-};
+    message: 'Something went wrong!',
+  }
+  return responseData(res, 500, errorResponse)
+}
 
 const badRequest = (res: Response, message: string): Response => {
-  return responseData(res, 400, {
+  const errorResponse: ErrorResponse = {
     status: 400,
     message,
-  });
-};
+  }
+  return responseData(res, 400, errorResponse)
+}
 
-const ok = (res: Response, data?: any): Response => {
-  return responseData(res, 200, data);
-};
+const ok = <T>(res: Response, data?: T): Response => {
+  const successResponse: SuccessResponse<T> = {
+    status: 200,
+    data: data!,
+  }
+  return responseData(res, 200, successResponse)
+}
 
-const created = (res: Response, data: any): Response => {
-  return responseData(res, 201, data);
-};
+const created = <T>(res: Response, data: T): Response => {
+  const successResponse: SuccessResponse<T> = {
+    status: 201,
+    data,
+  }
+  return responseData(res, 201, successResponse)
+}
 
 const unauthorize = (res: Response): Response => {
-  return responseData(res, 401, {
+  const errorResponse: ErrorResponse = {
     status: 401,
-    message: "You are unauthorized",
-  });
-};
+    message: 'You are unauthorized',
+  }
+  return responseData(res, 401, errorResponse)
+}
 
 const notFound = (res: Response): Response => {
-  return responseData(res, 404, {
-    status: 400,
-    message: "Resource not found",
-  });
-};
+  const errorResponse: ErrorResponse = {
+    status: 404,
+    message: 'Resource not found',
+  }
+  return responseData(res, 404, errorResponse)
+}
 
-export default { error, badRequest, ok, unauthorize, created, notFound };
+export default { error, badRequest, ok, unauthorize, created, notFound }
