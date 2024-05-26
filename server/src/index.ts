@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser'
 import http from 'http'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
-import userRoutes from './routes/user.route'
+import routes from './routes/index'
 
 // configures dotenv to work in your application
 dotenv.config()
@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 const PORT = process.env.PORT || 4000
-app.use('/api/v1', userRoutes)
+app.use('/api/v1', routes)
 
 const server = http.createServer(app)
 
