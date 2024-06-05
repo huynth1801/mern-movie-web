@@ -1,18 +1,18 @@
-import HomePage from '../components/pages/HomePage'
-import PersonDetail from '../components/pages/PersonDetail'
-import FavoriteList from '../components/pages/FavoriteList'
-import MediaDetail from '../components/pages/MediaDetail'
-import MediaList from '../components/pages/MediaList'
-import MediaSearch from '../components/pages/MediaSearch'
-import PasswordUpdate from '../components/pages/PasswordUpdate'
-import ReviewList from '../components/pages/ReviewList'
+import HomePage from '../pages/HomePage'
+import PersonDetail from '../pages/PersonDetail'
+import FavoriteList from '../pages/FavoriteList'
+import MediaDetail from '../pages/MediaDetail'
+import MediaList from '../pages/MediaList'
+import MediaSearch from '../pages/MediaSearch'
+import PasswordUpdate from '../pages/PasswordUpdate'
+import ReviewList from '../pages/ReviewList'
 import ProtectedPage from '../components/common/ProtectedPage'
-import { ReactNode } from 'react'
+import { ReactElement } from 'react'
 
 interface RoutesProps {
   index?: boolean
   path?: string
-  element: ReactNode
+  element: ReactElement
   state?: string
 }
 

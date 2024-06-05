@@ -1,11 +1,11 @@
-import React, { useEffect, ReactNode } from 'react'
+import React, { useEffect, ReactNode, ReactElement } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAppState } from '../../redux/features/appStateSlice'
 import { RootState } from '../../redux/store'
 
 interface PageWrapperProps {
   state: string
-  children: ReactNode
+  children: ReactElement
 }
 
 const PageWrapper = ({ state, children }: PageWrapperProps) => {

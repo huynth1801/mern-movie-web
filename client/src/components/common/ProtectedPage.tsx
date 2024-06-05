@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { setAuthModalOpen } from '../../redux/features/authModalSlice'
-import React, { ReactNode, useEffect } from 'react'
+import React, { ReactElement, ReactNode, useEffect } from 'react'
 import { RootState } from '../../redux/store'
 
 interface ProtectedPageProps {
-  children: ReactNode
+  children: ReactElement
 }
 
 const ProtectedPage = ({ children }: ProtectedPageProps) => {
