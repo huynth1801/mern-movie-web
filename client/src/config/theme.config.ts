@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles'
 import { PaletteMode } from '@mui/material'
 import { colors } from '@mui/material'
 
-export const themeModes = {
+export const themeModes: Record<PaletteMode, PaletteMode> = {
   dark: 'dark',
   light: 'light',
 }

@@ -1,4 +1,4 @@
-import React from 'react' // Import React for JSX usage within icons
+import React, { ReactNode } from 'react' // Import React for JSX usage within icons
 
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import SlideshowOutlinedIcon from '@mui/icons-material/SlideshowOutlined'
@@ -12,7 +12,7 @@ import { SvgIconProps } from '@mui/material'
 interface MenuItem {
   display: string
   path: string
-  icon: SvgIconProps
+  icon: ReactNode
   state: string
 }
 

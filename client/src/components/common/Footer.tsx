@@ -1,7 +1,8 @@
-import { Container, Paper, Stack, Box } from '@mui/material'
+import { Container, Paper, Stack, Box, Button } from '@mui/material'
 import React from 'react'
 import Logo from './Logo'
 import menuConfigs from '../../config/menu.config'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -15,7 +16,13 @@ const Footer = () => {
             sx={{ height: 'max-content' }}
           >
             <Logo />
-            <Box>{menuConfigs}</Box>
+            <Box>
+              {menuConfigs.main.map((item, index) => (
+                <Button key={index} sx={{ color: 'inherit' }} component={Link} to={item.path}>
+                  {item.display}
+                </Button>
+              ))}
+            </Box>
           </Stack>
         </Paper>
       </Container>
